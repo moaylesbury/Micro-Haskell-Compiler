@@ -147,18 +147,54 @@ static class TokAcceptor extends Acceptor implements DFA {
 	public int numberOfStates() {return tokLen + 2;}
 	
 	int next (int state, char c) {
-		//System.out.println(state+ " " + c + " " + tok);
 		switch (state) {
 		
-		case 0: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(0)); if (c == tok.charAt(0)) return 1; else return tokLen + 1;
-		case 1: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(1)); if (c == tok.charAt(1)) return 2; else return tokLen + 1;
-		case 2: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(2)); if (c == tok.charAt(2)) return 3; else return tokLen + 1;
-		case 3: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(3)); if (c == tok.charAt(3)) return 4; else return tokLen + 1;
-		case 4: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(4)); if (c == tok.charAt(4)) return 5; else return tokLen + 1;
-		case 5: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(5)); if (c == tok.charAt(5)) return 6; else return tokLen + 1;
-		case 6: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(6)); if (c == tok.charAt(6)) return 7; else return tokLen + 1;
-		case 7: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(7)); if (c == tok.charAt(7)) return 8; else return tokLen + 1;
+		case 0: 
+			if (c == tok.charAt(0)) return 1; else return tokLen + 1;
+		
+		
+		case 1: 
+			if (c == tok.charAt(1)) return 2; else return tokLen + 1;
+		
+		
+		case 2: 
+		if (tok.length() >= 3) {
+			if (c == tok.charAt(2)) return 3;
+		} else return tokLen + 1;
+		
+		
+		case 3: 
+		if (tok.length() >= 4) {
+			if (c == tok.charAt(3)) return 4;
+		} else return tokLen + 1;
+		
+		
+		case 4: 
+		if (tok.length() >= 5) {
+			if (c == tok.charAt(4)) return 5;
+		} else return tokLen + 1;
+		
+		
+		case 5: 
+		if (tok.length() >= 6) {
+			if (c == tok.charAt(5)) return 6;
+		} else return tokLen + 1;
+		
+		
+		case 6: 
+		if (tok.length() >= 7) {
+			if (c == tok.charAt(6)) return 7;
+		} else return tokLen + 1;
+		
+		
+		case 7: 
+		if (tok.length() >= 8) {
+			if (c == tok.charAt(7)) return 8;
+		} else return tokLen + 1;
+		
+		
 		default: return tokLen + 1;
+		
 		
 		}
 	}
@@ -175,6 +211,7 @@ static class TokAcceptor extends Acceptor implements DFA {
 	static DFA symAcc = new SymAcceptor();
 	static DFA whiteAcc = new WhitespaceAcceptor();
 	static DFA commAcc = new CommentAcceptor();
+	
 	static DFA intAcc = new TokAcceptor("Integer");
 	static DFA bAcc = new TokAcceptor("Bool");
 	static DFA ifAcc = new TokAcceptor("if");
@@ -185,7 +222,7 @@ static class TokAcceptor extends Acceptor implements DFA {
 	static DFA scAcc = new TokAcceptor(";");
 	
 	//These should be put in order of importance
-	static DFA[] MH_acceptors = new DFA[] {thenAcc, varAcc, numAcc, boolAcc, symAcc, whiteAcc, commAcc, intAcc, ifAcc, bAcc, elseAcc, lbraAcc, rbraAcc, scAcc};
+	static DFA[] MH_acceptors = new DFA[] {intAcc, ifAcc, bAcc, thenAcc, elseAcc, lbraAcc, rbraAcc, scAcc, whiteAcc, commAcc, symAcc, boolAcc, numAcc, varAcc};
 
     MH_Lexer (Reader reader) {
 	super(reader, MH_acceptors) ;
@@ -265,3 +302,15 @@ static class TokAcceptor extends Acceptor implements DFA {
 		}
 		*/
 
+
+
+
+/*case 0: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(0)); if (c == tok.charAt(0)) return 1; else return tokLen + 1;
+		case 1: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(1)); if (c == tok.charAt(1)) return 2; else return tokLen + 1;
+		case 2: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(2)); if (c == tok.charAt(2)) return 3; else return tokLen + 1;
+		case 3: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(3)); if (c == tok.charAt(3)) return 4; else return tokLen + 1;
+		case 4: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(4)); if (c == tok.charAt(4)) return 5; else return tokLen + 1;
+		case 5: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(5)); if (c == tok.charAt(5)) return 6; else return tokLen + 1;
+		case 6: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(6)); if (c == tok.charAt(6)) return 7; else return tokLen + 1;
+		case 7: System.out.println(state+ " " + c + " " + tok + " " + tok.charAt(7)); if (c == tok.charAt(7)) return 8; else return tokLen + 1;
+		*/
