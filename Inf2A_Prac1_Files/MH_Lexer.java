@@ -10,25 +10,6 @@ import java.io.* ;
 class MH_Lexer extends GenLexer implements LEX_TOKEN_STREAM {
 
 static class VarAcceptor extends Acceptor implements DFA {
-    /*
-	public String lexClass() {return "VAR";}
-	public int numberOfStates() {return 6;}
-	
-	int next (int state, char c) {
-		switch (state) {
-		
-		case 0: if (CharTypes.isSmall(c)) return 1 ; else return 5;
-		case 1: if (CharTypes.isSmall(c)) return 2 ; else return 1;
-		case 2: if (CharTypes.isLarge(c)) return 3 ; else if (CharTypes.isSmall(c)) return 2 ; else return 5;
-		case 3: if (CharTypes.isDigit(c)) return 4 ; else if (CharTypes.isLarge(c)) return 3 ; else return 5;
-		case 4: if (c == '\'') return 1 ; else if (CharTypes.isDigit(c)) return 4 ; else return 5;
-		default: return 5;
-		}
-	}
-	
-	boolean accepting (int state) {return (state == 1);}
-	int dead() {return 5;} */
-	
 	public String lexClass() {return "VAR";}
 	public int numberOfStates() {return 6;}
 	
@@ -54,7 +35,7 @@ static class NumAcceptor extends Acceptor implements DFA {
 		switch (state) {
 		
 		case 0: if (CharTypes.isDigit(c)) return 1 ; else return 0;
-		default: return 11;
+		default: return 0;
 		}
 	}
 	
