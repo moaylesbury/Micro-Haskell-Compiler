@@ -27,6 +27,14 @@ class MH_Parser extends GenParser implements PARSER {
     static String[] Exp0                 = new String[] {"#Exp0"} ;
     static String[] if_then_else         = new String[] {"if", "#Exp", "then", "#Exp", "else", "#Exp"} ;
     static String[] Exp1_Rest0           = new String[] {"#Exp1", "#Rest0"} ;
+    
+    static String[] Ops0_Exp1            = new String[] {"#Ops0", "#Exp1"} ; 
+    static String[] eqeq                 = new String[] {"=="} ;
+    static String[] leq                  = new String[] {"<="} ;
+    static String[] Ops1_Exp2_Rest1      = new String[] {"#Ops1", "#Exp2", "#Rest1"} ;
+    static String[] plus                 = new String[] {"+"} ;
+    static String[] minus                = new String[] {"-"} ;
+    
     static String[] eqeq_Exp1            = new String[] {"==", "#Exp1"} ;
     static String[] lteq_Exp1            = new String[] {"<=", "#Exp1"} ;
     static String[] Exp2_Rest1           = new String[] {"#Exp2", "#Rest1"} ;
@@ -41,7 +49,97 @@ class MH_Parser extends GenParser implements PARSER {
     // may add auxiliary methods here if desired
 
     String[] tableEntry (String nonterm, String tokClass) {
-        // add main code here
+        if (nonterm.equals("#Prog")) {
+        	if (tokClass == null) return epsilon;
+        	else if (tokClass.equals("VAR")) return Decl_Prog;
+        	else return null;
+        }
+        else if (nonterm.equals("#Decl")) {
+        	if (tokClass.equals("VAR")) return TypeDecl_TermDecl;
+        	else return null;
+        }
+        else if (nonterm.equals("#TypeDecl")) {
+        	if (tokClass.equals("VAR")) return VAR_has_Type;
+        	else return null;
+        }
+        else if (nonterm.equals("#Type")) {
+        	if (tokClass.equals("Integer") || tokClass.equals("Bool") || tokClass.equals("(")) return Type0_TypeRest;
+        	else return null;
+        }
+        else if (nonterm.equals("#TypeRest")) {
+        	if (tokClass.equals(")") || tokClass.equals(";")) return epsilon;
+        	else if (tokClass.equals("->")) return arrow_Type;
+        	else return null;
+        }
+        else if (nonterm.equals("#Type0")) {
+        	if (tokClass.equals("Integer")) return Integer;
+        	else if (tokClass.equals("Bool")) return  Bool;
+        	else if (tokClass.equals("(")) return lbr_Type_rbr;
+        	else return null;
+        }
+        else if (nonterm.equals("#TermDecl")) {
+        	if (tokClass.equals("VAR")) return VAR_Args_eq_Exp;
+        	else return null;
+        }
+        else if (nonterm.equals("#Args")) {
+        	if (tokClass.equals("VAR")) return VAR_Args;
+        	else if (tokClass.equals("=")) return epsilon;
+        	else return null;
+        }
+        else if (nonterm.equals("#Exp")) {
+        	if (tokClass.equals("VAR") || tokClass.equals("NUM") || tokClass.equals("BOOLEAN") || tokClass.equals("(")) return Exp0;
+        	else if (tokClass.equals("if")) return if_then_else;
+        	else return null;
+        }
+        else if (nonterm.equals("#Exp0")) {
+        	if (tokClass.equals("VAR") || tokClass.equals("NUM") || tokClass.equals("BOOLEAN") || tokClass.equals("(")) return Exp1_Rest0;
+        	else return null;
+        }
+        else if (nonterm.equals("#Rest0")) {
+        	if (tokClass.equals("then") || tokClass.equals("else") || tokClass.equals(")") || tokClass.equals(";")) return epsilon;
+        	else if (tokClass.equals("==") || tokClass.equals("<=")) return Ops0_Exp1;
+        	else return null;
+        }
+        else if (nonterm.equals("#Ops0")) {
+        	if (tokClass.equals("==")) return eqeq;
+        	else if (tokClass.equals("<=")) return leq;
+        	else return null;
+        }
+        else if (nonterm.equals("#Exp1")) {
+        	if (tokClass.equals("VAR") || tokClass.equals("NUM") || tokClass.equals("BOOLEAN") || tokClass.equals("(")) return Exp2_Rest1;
+        	else return null;
+        }
+        else if (nonterm.equals("#Rest1")) {
+        	if (tokClass.equals("then") || tokClass.equals("else") || tokClass.equals(")") || tokClass.equals(";") || tokClass.equals("==") || tokClass.equals("<=")) return epsilon;
+        	else if (tokClass.equals("+") || tokClass.equals("-")) return Ops1_Exp2_Rest1;
+        	else return null;
+        }
+        else if (nonterm.equals("#Ops1")) {
+        	if (tokClass.equals("+")) return plus;
+        	else if (tokClass.equals("-")) return minus;
+        	else return null;
+        }
+        else if (nonterm.equals("#Exp2")) {
+        	if (tokClass.equals("VAR") || tokClass.equals("NUM") || tokClass.equals("BOOLEAN") || tokClass.equals("(")) return Exp3_Rest2;
+        	else return null;
+        }
+        else if (nonterm.equals("#Rest2")) {
+        	if (tokClass.equals("VAR") || tokClass.equals("NUM") || tokClass.equals("BOOLEAN") || tokClass.equals("(")) return Exp3_Rest2;
+        	else if (tokClass.equals("then") || tokClass.equals("else") || tokClass.equals(")") || tokClass.equals(";") || tokClass.equals("==") || tokClass.equals("<=") || tokClass.equals("+") || tokClass.equals("-")) return epsilon;
+        	else return null;
+        }
+        else if (nonterm.equals("#Exp3")) {
+        	if (tokClass.equals("VAR")) return VAR;
+        	else if (tokClass.equals("NUM")) return NUM;
+        	else if (tokClass.equals("BOOLEAN")) return BOOLEAN;
+        	else if (tokClass.equals("(")) return lbr_Exp_rbr;
+        	else return null;
+        }
+        else return null;
+        
+    	
+    	    
+    	 
     }
 }
 
