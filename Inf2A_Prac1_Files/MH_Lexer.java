@@ -203,7 +203,7 @@ static class TokAcceptor extends Acceptor implements DFA {
 	static DFA scAcc = new TokAcceptor(";");
 	
 	//These should be put in order of importance
-	static DFA[] MH_acceptors = new DFA[] {intAcc, ifAcc, bAcc, thenAcc, elseAcc, lbraAcc, rbraAcc, scAcc, whiteAcc, commAcc, symAcc, boolAcc, numAcc, varAcc};
+	static DFA[] MH_acceptors = new DFA[] {commAcc, symAcc, intAcc, ifAcc, bAcc, thenAcc, elseAcc, lbraAcc, rbraAcc, scAcc, boolAcc, numAcc, varAcc, whiteAcc};
 
     MH_Lexer (Reader reader) {
 	super(reader, MH_acceptors) ;

@@ -24,11 +24,32 @@ class MH_Typechecker {
 	throws TypeError, UnknownVariable {
 
     	// exp is the AST 
-    	// 
+    	System.out.println("test");
+    	if (exp.isVAR()) {
+    		System.out.println("VAR");
+    	} else if (exp.isNUM()) {
+    		System.out.println("NUM");
+    	} else if (exp.isBOOLEAN()) {
+    		System.out.println("BOOL");
+    	} else if (exp.isAPP()) {
+    		System.out.println("APP");
+    	} else if (exp.isINFIX()) {
+    		System.out.println("INFIX");
+    	} else if (exp.isIF()) {
+    		System.out.println("IF");
+    	} else {
+    		System.out.println("error");
+    	}
+    	
+    	
+    	// MH_Type_Impl.IntegerType ; // AST for Integer 
+    	//MH_Type_Impl.BoolType; // AST for Bool
+    	// new MH_Type_Impl (t1,t2); // AST for (t1->t2)
+    	
     	
     	// in : MH_EXP (AST)
     	// out: MH TYPE
-
+    	return null;
     }
 
 

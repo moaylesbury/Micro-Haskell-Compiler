@@ -325,7 +325,7 @@ class DemoLexer extends GenLexer implements LEX_TOKEN_STREAM {
 // To quit the lexer, hit Ctrl-C.
 
 //Adapt this for testing the MH_Lexer
-
+/*
 class LexerDemo {
 	
     public static void main (String[] args) 
@@ -349,8 +349,8 @@ class LexerDemo {
 	} 
     }
 }
+*/
 
-/*
 class LexerDemo {
 	
     public static void main (String[] args) 
@@ -374,7 +374,7 @@ class LexerDemo {
 	} 
     }
 }
-*/
+
 
 class LexError extends Exception {
     public LexError (String nonToken) {
