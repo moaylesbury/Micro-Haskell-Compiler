@@ -22,21 +22,55 @@ class MH_Typechecker {
 
     static MH_TYPE computeType (MH_EXP exp, TYPE_ENV env) 
 	throws TypeError, UnknownVariable {
-
+    	
     	// exp is the AST 
-    	System.out.println("test");
+    	//return a type for everything except for functions and infix'
     	if (exp.isVAR()) {
     		System.out.println("VAR");
+    		System.out.println(exp.value());
+    		
+    		
+    		if (env.typeOf(exp.value()).equals(IntegerType)) {
+    			return MH_Type_Impl.IntegerType;
+    		} else if (env.typeOf(exp.value()).equals(BoolType)) {
+    			return MH_Type_Impl.BoolType;
+    		} else {
+    			System.out.println("type : " + env.typeOf(exp.value()).left() + " -> " + env.typeOf(exp.value()).right()); 
+    			return null;
+    		}
     	} else if (exp.isNUM()) {
     		System.out.println("NUM");
+    		return MH_Type_Impl.IntegerType;
     	} else if (exp.isBOOLEAN()) {
     		System.out.println("BOOL");
-    	} else if (exp.isAPP()) {
+    		return MH_Type_Impl.BoolType;
+    	} else if (exp.isAPP()) { 
     		System.out.println("APP");
+    		// e1 expected type needs to match e2 type
+    		System.out.println("=+=+=+=+===+=+=+=++==+==+=+=+=+=+=+=");
+    		System.out.println("e1------");
+    		System.out.println(computeType(exp.first(), env));
+    		System.out.println("e2------");
+    		System.out.println(computeType(exp.second(), env));
+    		System.out.println("=+=+=+=+===+=+=+=++==+==+=+=+=+=+=+=");
     	} else if (exp.isINFIX()) {
-    		System.out.println("INFIX");
+    		System.out.println("e1 INFIX e2");
+    		// infix operations are only performed on integers in this language so need to check types
+    		if (computeType(exp.first(), env) == MH_Type_Impl.IntegerType && computeType(exp.second(), env) == MH_Type_Impl.IntegerType) {
+    			// if they are comparison operators the type will be bool
+    			if (exp.infixOp() == "==" || exp.infixOp() == "<=") {
+    				return MH_Type_Impl.BoolType;
+    			} else { // if the operator is + or - the return type will be integer
+    				return MH_Type_Impl.IntegerType;
+    			}
+    			
+    		} else {
+    			// TODO : Error for incorrect types
+    			return null;
+    		}
     	} else if (exp.isIF()) {
-    		System.out.println("IF");
+    		MH_TYPE expType = computeType(exp.first(), env);
+    		return ((expType == computeType(exp.second(), env)) && (expType == computeType(exp.third(), env))) ? expType : null; //TODO: Add error
     	} else {
     		System.out.println("error");
     	}

@@ -106,7 +106,7 @@ class MH_Parser extends GenParser implements PARSER {
         	else return null;
         }
         else if (nonterm.equals("#Exp1")) {
-        	if (tokClass.equals("VAR") || tokClass.equals("NUM") || tokClass.equals("BOOLEAN") || tokClass.equals("(")) return Exp2_Rest1;
+        	if (tokClass.equals("VAR") || tokClass.equals("NUM") || tokClass.equals("BOOL") || tokClass.equals("(")) return Exp2_Rest1;
         	else return null;
         }
         else if (nonterm.equals("#Rest1")) {
@@ -144,14 +144,17 @@ class MH_Parser extends GenParser implements PARSER {
 }
 
 
+
 // For testing
 
 class MH_ParserDemo {
 
     static PARSER MH_Parser = new MH_Parser() ;
 
+    static String f = "MH_example.txt"; 
+    
     public static void main (String[] args) throws Exception {
-	Reader reader = new BufferedReader (new FileReader (args[0])) ;
+	Reader reader = new BufferedReader (new FileReader (f)) ;
 	LEX_TOKEN_STREAM MH_Lexer = 
 	    new CheckedSymbolLexer (new MH_Lexer (reader)) ;
 	TREE theTree = MH_Parser.parseTokenStream (MH_Lexer) ;

@@ -324,18 +324,16 @@ class DemoLexer extends GenLexer implements LEX_TOKEN_STREAM {
 // You can also experiment with erroneous inputs.
 // To quit the lexer, hit Ctrl-C.
 
-//Adapt this for testing the MH_Lexer
-/*
 class LexerDemo {
 	
     public static void main (String[] args) 
 	throws StateOutOfRange, IOException {
 	BufferedReader consoleReader = new BufferedReader (new InputStreamReader (System.in)) ;
-        while (0 == 0) {
+        while (0==0) {
 	    System.out.print ("Lexer> ") ;
             String inputLine = consoleReader.readLine() ;
             Reader lineReader = new BufferedReader (new StringReader (inputLine)) ;
-            GenLexer demoLexer = new MH_Lexer (lineReader) ;
+            MH_Lexer demoLexer = new MH_Lexer (lineReader) ;
             try {
 	        LexToken currTok = demoLexer.pullProperToken() ;
 	        while (currTok != null) {
@@ -349,32 +347,6 @@ class LexerDemo {
 	} 
     }
 }
-*/
-
-class LexerDemo {
-	
-    public static void main (String[] args) 
-	throws StateOutOfRange, IOException {
-	BufferedReader consoleReader = new BufferedReader (new InputStreamReader (System.in)) ;
-        while (0 == 0) {
-	    System.out.print ("Lexer> ") ;
-            String inputLine = consoleReader.readLine() ;
-            Reader lineReader = new BufferedReader (new StringReader (inputLine)) ;
-            GenLexer demoLexer = new DemoLexer (lineReader) ;
-            try {
-	        LexToken currTok = demoLexer.pullProperToken() ;
-	        while (currTok != null) {
-	            System.out.println (currTok.value() + " \t" + 
-		     		        currTok.lexClass()) ;
-	            currTok = demoLexer.pullProperToken() ;
-                }
-            } catch (LexError x) {
-		System.out.println ("Error: " + x.getMessage()) ;
-            }
-	} 
-    }
-}
-
 
 class LexError extends Exception {
     public LexError (String nonToken) {
