@@ -23,66 +23,84 @@ class MH_Typechecker {
     static MH_TYPE computeType (MH_EXP exp, TYPE_ENV env) 
 	throws TypeError, UnknownVariable {
     	
-    	// exp is the AST 
-    	//return a type for everything except for functions and infix'
     	if (exp.isVAR()) {
-    		System.out.println("VAR");
-    		System.out.println(exp.value());
-    		
-    		
+    	 			
     		if (env.typeOf(exp.value()).equals(IntegerType)) {
     			return MH_Type_Impl.IntegerType;
     		} else if (env.typeOf(exp.value()).equals(BoolType)) {
     			return MH_Type_Impl.BoolType;
     		} else {
-    			System.out.println("type : " + env.typeOf(exp.value()).left() + " -> " + env.typeOf(exp.value()).right()); 
-    			return null;
+    			// arrow type
+    			return env.typeOf(exp.value());
     		}
+    		
     	} else if (exp.isNUM()) {
-    		System.out.println("NUM");
+    		
     		return MH_Type_Impl.IntegerType;
+    		
     	} else if (exp.isBOOLEAN()) {
-    		System.out.println("BOOL");
+    		
     		return MH_Type_Impl.BoolType;
+    		
     	} else if (exp.isAPP()) { 
-    		System.out.println("APP");
+    		
     		// e1 expected type needs to match e2 type
-    		System.out.println("=+=+=+=+===+=+=+=++==+==+=+=+=+=+=+=");
-    		System.out.println("e1------");
-    		System.out.println(computeType(exp.first(), env));
-    		System.out.println("e2------");
-    		System.out.println(computeType(exp.second(), env));
-    		System.out.println("=+=+=+=+===+=+=+=++==+==+=+=+=+=+=+=");
+    		// this is going to be the named function, so will return an arrow type
+    		// the expected argument will be the LHS of the arrow 
+    		// this expected argument must match e2 type
+    		
+    		MH_TYPE first = computeType(exp.first(), env); // arrow type ( type -> type )
+    		
+    		// as dictated by the arrow type for the function, the return type should be the RHS of the arrow 
+    		
+    		return first.left().equals(computeType(exp.second(), env)) ? first.right() : null; // TODO : Throw error 
+    		
     	} else if (exp.isINFIX()) {
-    		System.out.println("e1 INFIX e2");
-    		// infix operations are only performed on integers in this language so need to check types
+    		// infix operations are only performed on integers in this language
+    		// thus must check e1 and e2 are IntegerTypes
+    		
     		if (computeType(exp.first(), env) == MH_Type_Impl.IntegerType && computeType(exp.second(), env) == MH_Type_Impl.IntegerType) {
-    			// if they are comparison operators the type will be bool
-    			if (exp.infixOp() == "==" || exp.infixOp() == "<=") {
+    			
+    			// if they are comparison operators the type will be BoolType
+    			// these operators come under non-terminal #Ops0 as dictated by the grammar
+    			
+    			if (exp.infixOp() == "#Ops0") {
+    				
     				return MH_Type_Impl.BoolType;
-    			} else { // if the operator is + or - the return type will be integer
+    				
+    			} else { 
+    				
+    				// otherwise the operator will be + or -, resulting in an IntegerType
     				return MH_Type_Impl.IntegerType;
     			}
     			
     		} else {
+    			
     			// TODO : Error for incorrect types
     			return null;
+    			
     		}
+    		
     	} else if (exp.isIF()) {
-    		MH_TYPE expType = computeType(exp.first(), env);
-    		return ((expType == computeType(exp.second(), env)) && (expType == computeType(exp.third(), env))) ? expType : null; //TODO: Add error
+    		
+    		// if statements of form if e1 then e2 else e3 
+    		// where e1 is a condition (BOOLEAN) and the type of e2 is the same as that of e3
+    		// thus the return type is that of e2 or e3
+    		
+    		MH_TYPE returnType = computeType(exp.second(), env);
+    		return (computeType(exp.first(), env).equals(BoolType) && computeType(exp.third(), env).equals(returnType)) ? returnType : test(); // TODO : Throw error
+    		
     	} else {
+    		
     		System.out.println("error");
+    		return null;
+    				
     	}
     	
-    	
-    	// MH_Type_Impl.IntegerType ; // AST for Integer 
-    	//MH_Type_Impl.BoolType; // AST for Bool
-    	// new MH_Type_Impl (t1,t2); // AST for (t1->t2)
-    	
-    	
-    	// in : MH_EXP (AST)
-    	// out: MH TYPE
+    }
+    
+    static MH_TYPE test() {
+    	System.out.println("error");
     	return null;
     }
 
