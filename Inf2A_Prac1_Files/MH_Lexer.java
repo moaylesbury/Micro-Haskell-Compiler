@@ -26,7 +26,7 @@ static class VarAcceptor extends Acceptor implements DFA {
 	int dead() {return 2;}
 	
 }
-
+/*
 static class NumAcceptor extends Acceptor implements DFA {
 	public String lexClass() {return "NUM";}
 	public int numberOfStates() {return 3;}
@@ -42,6 +42,24 @@ static class NumAcceptor extends Acceptor implements DFA {
 	
 	boolean accepting (int state) {return (state == 1);}
 	int dead() {return 2;}
+}*/
+
+
+static class NumAcceptor extends Acceptor implements DFA {
+	public String lexClass() {return "NUM";}
+	public int numberOfStates() {return 4;}
+	
+	int next (int state, char c) {
+		switch (state) {
+		
+		case 0: if (c == '0') return 2 ; else if (CharTypes.isDigit(c) && c != '0') return 1 ; else return 3;
+		case 1: if (CharTypes.isDigit(c)) return 1 ; else return 3;
+		default: return 3;
+		}
+	}
+	
+	boolean accepting (int state) {return (state == 1 || state == 2);}
+	int dead() {return 3;}
 }
 
 static class BooleanAcceptor extends Acceptor implements DFA {
