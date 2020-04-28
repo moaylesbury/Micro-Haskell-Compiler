@@ -26,15 +26,7 @@ class MH_Parser extends GenParser implements PARSER {
     static String[] VAR_Args             = new String[] {"VAR", "#Args"} ;
     static String[] Exp0                 = new String[] {"#Exp0"} ;
     static String[] if_then_else         = new String[] {"if", "#Exp", "then", "#Exp", "else", "#Exp"} ;
-    static String[] Exp1_Rest0           = new String[] {"#Exp1", "#Rest0"} ;
-    
-    static String[] Ops0_Exp1            = new String[] {"#Ops0", "#Exp1"} ; 
-    static String[] eqeq                 = new String[] {"=="} ;
-    static String[] leq                  = new String[] {"<="} ;
-    static String[] Ops1_Exp2_Rest1      = new String[] {"#Ops1", "#Exp2", "#Rest1"} ;
-    static String[] plus                 = new String[] {"+"} ;
-    static String[] minus                = new String[] {"-"} ;
-    
+    static String[] Exp1_Rest0           = new String[] {"#Exp1", "#Rest0"} ;    
     static String[] eqeq_Exp1            = new String[] {"==", "#Exp1"} ;
     static String[] lteq_Exp1            = new String[] {"<=", "#Exp1"} ;
     static String[] Exp2_Rest1           = new String[] {"#Exp2", "#Rest1"} ;
@@ -97,12 +89,8 @@ class MH_Parser extends GenParser implements PARSER {
         }
         else if (nonterm.equals("#Rest0")) {
         	if (tokClass.equals("then") || tokClass.equals("else") || tokClass.equals(")") || tokClass.equals(";")) return epsilon;
-        	else if (tokClass.equals("==") || tokClass.equals("<=")) return Ops0_Exp1;
-        	else return null;
-        }
-        else if (nonterm.equals("#Ops0")) {
-        	if (tokClass.equals("==")) return eqeq;
-        	else if (tokClass.equals("<=")) return leq;
+        	else if (tokClass.equals("==")) return eqeq_Exp1;																				
+        	else if (tokClass.equals("<=")) return lteq_Exp1;
         	else return null;
         }
         else if (nonterm.equals("#Exp1")) {
@@ -111,12 +99,8 @@ class MH_Parser extends GenParser implements PARSER {
         }
         else if (nonterm.equals("#Rest1")) {
         	if (tokClass.equals("then") || tokClass.equals("else") || tokClass.equals(")") || tokClass.equals(";") || tokClass.equals("==") || tokClass.equals("<=")) return epsilon;
-        	else if (tokClass.equals("+") || tokClass.equals("-")) return Ops1_Exp2_Rest1;
-        	else return null;
-        }
-        else if (nonterm.equals("#Ops1")) {
-        	if (tokClass.equals("+")) return plus;
-        	else if (tokClass.equals("-")) return minus;
+        	else if (tokClass.equals("+")) return plus_Exp2_Rest1;
+        	else if (tokClass.equals("-")) return minus_Exp2_Rest1;					/// TODO TODO TODO TODO TODO TODO
         	else return null;
         }
         else if (nonterm.equals("#Exp2")) {

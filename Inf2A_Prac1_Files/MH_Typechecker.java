@@ -26,12 +26,18 @@ class MH_Typechecker {
     	if (exp.isVAR()) {
     	 			
     		if (env.typeOf(exp.value()).equals(IntegerType)) {
+    			
     			return MH_Type_Impl.IntegerType;
+    			
     		} else if (env.typeOf(exp.value()).equals(BoolType)) {
+    			
     			return MH_Type_Impl.BoolType;
+    			
     		} else {
+    			
     			// arrow type
     			return env.typeOf(exp.value());
+    			
     		}
     		
     	} else if (exp.isNUM()) {
@@ -53,7 +59,7 @@ class MH_Typechecker {
     		
     		// as dictated by the arrow type for the function, the return type should be the RHS of the arrow 
     		
-    		return first.left().equals(computeType(exp.second(), env)) ? first.right() : null; // TODO : Throw error 
+    		return first.left().equals(computeType(exp.second(), env)) ? first.right() : error("Expected type does not match actual type"); 
     		
     	} else if (exp.isINFIX()) {
     		// infix operations are only performed on integers in this language
@@ -62,9 +68,8 @@ class MH_Typechecker {
     		if (computeType(exp.first(), env) == MH_Type_Impl.IntegerType && computeType(exp.second(), env) == MH_Type_Impl.IntegerType) {
     			
     			// if they are comparison operators the type will be BoolType
-    			// these operators come under non-terminal #Ops0 as dictated by the grammar
     			
-    			if (exp.infixOp() == "#Ops0") {
+    			if (exp.infixOp() == "==" || exp.infixOp() == "<=") {
     				
     				return MH_Type_Impl.BoolType;
     				
@@ -72,11 +77,12 @@ class MH_Typechecker {
     				
     				// otherwise the operator will be + or -, resulting in an IntegerType
     				return MH_Type_Impl.IntegerType;
+    				
     			}
     			
     		} else {
     			
-    			// TODO : Error for incorrect types
+    			error("Infix operators act on integer types");
     			return null;
     			
     		}
@@ -88,20 +94,21 @@ class MH_Typechecker {
     		// thus the return type is that of e2 or e3
     		
     		MH_TYPE returnType = computeType(exp.second(), env);
-    		return (computeType(exp.first(), env).equals(BoolType) && computeType(exp.third(), env).equals(returnType)) ? returnType : test(); // TODO : Throw error
+    		return (computeType(exp.first(), env).equals(BoolType) && computeType(exp.third(), env).equals(returnType)) ? returnType : error("For 'if e1 then e2 else e3' e1 must be a bool, and e2 type must equal e2 type");
     		
     	} else {
     		
-    		System.out.println("error");
+    		error("Unknown type");
     		return null;
     				
     	}
     	
     }
     
-    static MH_TYPE test() {
-    	System.out.println("error");
-    	return null;
+    
+    //Auxillary function allowing errors to be thrown from 'return (cond) ? a : b' statements
+    static MH_TYPE error(String msg) throws TypeError {
+    	throw new TypeError(msg);
     }
 
 
